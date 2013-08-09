@@ -1,0 +1,80 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+
+host_default=apipe-review.gsc.wustl.edu
+port_default=29418
+remote_default=origin
+
+OPTS_SPEC="\
+git gerrit setup <repo_name>
+--
+h,help              show the help
+p,port=             port (defaults to ${port_default})
+H,host=             host (defaults to ${host_default})
+r,remote=           remote name (defaults to ${remote_default})
+"
+
+eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt -- "$@" || echo exit $?)"
+
+PATH=$PATH:$(git --exec-path)
+. git-sh-setup
+
+set -o nounset
+
+require_work_tree
+
+while [ $# -gt 0 ]; do
+    opt="$1"
+    shift
+    case "$opt" in
+        -h|--help) ;;
+        -p|--port) port="$1"; shift ;;
+        -H|--host) host="$1"; shift ;;
+        -r|--remote) remote="$1"; shift ;;
+        --) break ;;
+        *) die "Unexpected option: $opt" ;;
+    esac
+done
+
+if [ -z "$host" ]; then
+    host=$host_default
+fi
+if [ -z "$port" ]; then
+    port=$port_default
+fi
+if [ -z "$remote" ]; then
+    remote=$remote_default
+fi
+
+if [ -z "$1" ]; then
+    die "repo name is required"
+else
+    repo="$1"
+    shift
+fi
+
+current_url=$(git config remote.${remote}.url)
+url=ssh://${host}:${port}/${repo}
+if [ "${current_url}" != "${url}" ]; then
+    old_remote=old-${remote}
+    if ! git config remote.${old_remote}.url; then
+        die "ERROR: Cannot backup old ${remote} as '${old_remote}' because it already exists."
+    fi
+    git remote add ${old_remote} ${current_url}
+    git remote set-url ${remote} ${url}
+fi
+
+git config remote.${remote}.push +refs/heads/*:refs/for/*
+
+hook=${GIT_DIR}/hooks/commit-msg
+tmp_hook=$TMPDIR/commit-msg.$$
+scp -p -P ${port} ${host}:hooks/commit-msg ${tmp_hook}
+if [ -f "${GIT_DIR}/hooks/commit-msg" ]; then
+    if ! cmp --silent ${tmp_hook} ${hook}; then
+        say "Warning: Skipping commit-msg hook install since one already exists."
+    fi
+else
+    mv ${tmp_hook} ${hook}
+fi
