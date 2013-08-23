@@ -5,6 +5,10 @@ set -o pipefail
 
 OPTS_SPEC="\
     git gerrit add-change-ids
+
+This will help you add Change-Ids to your existing commits.  If you have run
+'git-gerrit-setup' then Change-Ids will automatically be added for any future
+commits in this repo.
 --
 h,help      show the help
 "
@@ -18,11 +22,13 @@ set -o nounset
 require_work_tree
 
 echo "\
-Hello
-There
-   Indent
+
+You will be prompted with a list of your changes on the next screen.  All you
+need to do is save the file and exit and then Git should do the rest.
 "
 read -s -n 1 -p 'Press any key to continue...' response
+echo ""
+echo ""
 
 git rebase --interactive \
-    --exec "git reset --soft HEAD^ && git commit -C ORIG_HEAD"
+    --exec "git reset --soft HEAD^ && git commit -C ORIG_HEAD" "$@"
