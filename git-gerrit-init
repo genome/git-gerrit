@@ -8,7 +8,7 @@ port_default=29418
 remote_default=origin
 
 OPTS_SPEC="\
-git gerrit init <repo_name>
+git gerrit init <gerrit_project>
 --
 h,help              show the help
 p,port=             port (defaults to ${port_default})
