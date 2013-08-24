@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+main () {
+    case "$1" in
+        '') help ;;
+        -h|--help) help ;;
+        change-ids) shift; git-gerrit-change-ids "$@" ;;
+        init) shift; git-gerrit-init "$@" ;;
+        *) echo "Unknown subcommand: $1" 1>&2 ; exit 128;;
+    esac
+}
+
+help () {
+    echo "usage: git gerrit <subcommand>"
+    echo
+    echo "Available subcommands are:"
+    echo "   init         Initialize repo for use with Gerrit"
+    echo "   change-ids   Add Change-Ids to local commits"
+    echo
+    echo "Try 'git gerrit <subcommand> --help' for details."
+}
+
+main "$@"
