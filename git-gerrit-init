@@ -55,7 +55,7 @@ fi
 set -o nounset
 
 url=ssh://${host}:${port}/${repo}
-if git config remote.${remote}.url; then
+if git config remote.${remote}.url 1> /dev/null; then
     current_url=$(git config remote.${remote}.url)
     if [ "${current_url}" != "${url}" ]; then
         old_remote=old-${remote}
