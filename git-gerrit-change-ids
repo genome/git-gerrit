@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 
 OPTS_SPEC="\
-    git gerrit add-change-ids
+    git gerrit change-ids
 
 This will help you add Change-Ids to your existing commits.  If you have run
 'git-gerrit-setup' then Change-Ids will automatically be added for any future
