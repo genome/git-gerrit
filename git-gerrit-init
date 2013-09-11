@@ -73,7 +73,7 @@ git config remote.${remote}.push +refs/heads/*:refs/for/*
 
 hook=${GIT_DIR}/hooks/commit-msg
 tmp_hook=$TMPDIR/commit-msg.$$
-scp -p -P ${port} ${host}:hooks/commit-msg ${tmp_hook}
+scp -q -p -P ${port} ${host}:hooks/commit-msg ${tmp_hook}
 if [ -f "${GIT_DIR}/hooks/commit-msg" ]; then
     if ! cmp --silent ${tmp_hook} ${hook}; then
         say "Warning: Skipping commit-msg hook install since one already exists."
