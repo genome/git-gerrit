@@ -21,6 +21,11 @@ set -o nounset
 
 require_work_tree
 
+if [ ! -f "${GIT_DIR}/hooks/commit-msg" ]; then
+    echo 'ERROR: commit-msg hook not installed, have you run `git gerrit init`?'
+    exit 1
+fi
+
 # set GIT_EDITOR=true because we can't --exec without --interactive but we
 # don't really want to be --interactive
 GIT_EDITOR=true git rebase --interactive \
