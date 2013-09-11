@@ -21,14 +21,7 @@ set -o nounset
 
 require_work_tree
 
-echo "\
-
-You will be prompted with a list of your changes on the next screen.  All you
-need to do is save the file and exit and then Git should do the rest.
-"
-read -s -n 1 -p 'Press any key to continue...' response
-echo ""
-echo ""
-
-git rebase --interactive \
+# set GIT_EDITOR=true because we can't --exec without --interactive but we
+# don't really want to be --interactive
+GIT_EDITOR=true git rebase --interactive \
     --exec "git reset --soft HEAD^ && git commit -C ORIG_HEAD" "$@"
