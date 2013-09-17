@@ -30,7 +30,7 @@ my $out;
 my $run_ok = sub {
     my $expected_exit_code = shift;
     my @cmd = @_;
-    my $out = $r->run(@cmd, { quiet => 1 });
+    my $out = $r->run(@cmd, { quiet => !$ENV{TEST_VERBOSE} });
     my $exit_code = $? >> 8;
     is($exit_code, $expected_exit_code,
         sprintf('`%s` exited %s as expected',
