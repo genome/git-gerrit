@@ -54,19 +54,19 @@ fi
 
 set -o nounset
 
-url=ssh://${url}:${port}/${repo}
+remote_url=ssh://${url}:${port}/${repo}
 if git config remote.${remote_name}.url 1> /dev/null; then
     current_url=$(git config remote.${remote_name}.url)
-    if [ "${current_url}" != "${url}" ]; then
+    if [ "${current_url}" != "${remote_url}" ]; then
         old_remote_name=old-${remote_name}
         if ! git config remote.${old_remote_name}.url; then
             die "ERROR: Cannot backup old ${remote_name} as '${old_remote_name}' because it already exists."
         fi
         git remote add ${old_remote_name} ${current_url}
-        git remote set-url ${remote_name} ${url}
+        git remote set-url ${remote_name} ${remote_url}
     fi
 else
-    git remote add ${remote_name} ${url}
+    git remote add ${remote_name} ${remote_url}
 fi
 
 git config remote.${remote_name}.push +refs/heads/*:refs/for/*
