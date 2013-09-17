@@ -1,0 +1,11 @@
+Source: git-gerrit
+Section: devel
+Priority: optional
+Build-Depends: debhelper (>= 7), git-core, openssh-client
+Maintainer: Nathaniel Nutter <nnutter@genome.wustl.edu>
+Standards-Version: 3.8.3
+
+Package: git-gerrit
+Architecture: all
+Depends: git-core, openssh-client
+Description: Subcommand to help setup a Git repo for use with Git Gerrit.
