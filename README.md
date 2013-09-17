@@ -1,6 +1,6 @@
 # Install
 
-Coming soon...
+    make install
 
 # Test
 
@@ -10,4 +10,4 @@ Coming soon...
 
 ## Run Tests
 
-    prove -r -I $(git rev-parse --show-toplevel)/t/lib
+    make test
