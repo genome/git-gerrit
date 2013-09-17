@@ -88,6 +88,6 @@ fi
 echo "\
 
 If you have any commits that you did not push upstream then you should run
-'git gerrit add-change-ids' before trying to push.  If you forget to do this
+'git gerrit change-ids' before trying to push.  If you forget to do this
 you will be reminded when you try to push.
 "
