@@ -1,3 +1,9 @@
+git-gerrit (0.002-1) lucid; urgency=low
+
+  * New upstream version.
+
+ -- Nathaniel Nutter <nnutter@genome.wustl.edu>  Tue, 17 Sep 2013 16:41:13 -0500
+
 git-gerrit (0.001-1) lucid; urgency=low
 
   * Initial release.
