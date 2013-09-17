@@ -1,5 +1,6 @@
 # Install
 
+    cmake .
     make install
 
 # Test
@@ -10,4 +11,4 @@
 
 ## Run Tests
 
-    make test
+    prove -r -I t/lib

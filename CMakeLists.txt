@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 2.8)
+
+set(GIT_GERRIT ${CMAKE_CURRENT_SOURCE_DIR}/git-gerrit)
+set(GIT_GERRIT_CHANGE_IDS ${CMAKE_CURRENT_SOURCE_DIR}/git-gerrit-change-ids)
+set(GIT_GERRIT_INIT ${CMAKE_CURRENT_SOURCE_DIR}/git-gerrit-init)
+
+install(FILES ${GIT_GERRIT} ${GIT_GERRIT_CHANGE_IDS} ${GIT_GERRIT_INIT}
+    DESTINATION bin
+    PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+                GROUP_READ             GROUP_EXECUTE
+                WORLD_READ             WORLD_EXECUTE
+)
