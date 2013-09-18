@@ -1,3 +1,9 @@
+git-gerrit (0.002-2) lucid; urgency=low
+
+  * Add missing build dependency: cdbs.
+
+ -- Nathaniel Nutter <nnutter@genome.wustl.edu>  Wed, 18 Sep 2013 09:23:17 -0500
+
 git-gerrit (0.002-1) lucid; urgency=low
 
   * New upstream version.
