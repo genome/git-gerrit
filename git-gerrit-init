@@ -3,7 +3,7 @@
 set -o errexit
 set -o pipefail
 
-url_default=apipe-review.gsc.wustl.edu
+hostname_default=apipe-review.gsc.wustl.edu
 port_default=29418
 remote_name_default=origin
 
@@ -12,7 +12,7 @@ git gerrit init <gerrit_project>
 --
 h                 show the help
 p,port=           port (defaults to ${port_default})
-u,url=            url (defaults to ${url_default})
+H,hostname=       hostname (defaults to ${hostname_default})
 n,name=           remote name (defaults to ${remote_name_default})
 "
 
@@ -28,15 +28,15 @@ while [ $# -gt 0 ]; do
     shift
     case "$opt" in
         -p|--port) port="$1"; shift ;;
-        -u|--url) url="$1"; shift ;;
+        -H|--hostname) hostname="$1"; shift ;;
         -n|--name) remote_name="$1"; shift ;;
         --) break ;;
         *) die "Unexpected option: $opt" ;;
     esac
 done
 
-if [ -z "$url" ]; then
-    url=$url_default
+if [ -z "$hostname" ]; then
+    hostname=$hostname_default
 fi
 if [ -z "$port" ]; then
     port=$port_default
@@ -54,7 +54,7 @@ fi
 
 set -o nounset
 
-remote_url=ssh://${url}:${port}/${repo}
+remote_url=ssh://${hostname}:${port}/${repo}
 if git config remote.${remote_name}.url 1> /dev/null; then
     current_url=$(git config remote.${remote_name}.url)
     if [ "${current_url}" != "${remote_url}" ]; then
@@ -74,8 +74,8 @@ git config remote.${remote_name}.push +refs/heads/*:refs/for/*
 hook=${GIT_DIR}/hooks/commit-msg
 tmp_hook=$TMPDIR/commit-msg.$$
 
-scp -q -p -P ${port} ${url}:hooks/commit-msg ${tmp_hook} \
-    || die "ERROR: Could not get commit-msg hook from server: $url"
+scp -q -p -P ${port} ${hostname}:hooks/commit-msg ${tmp_hook} \
+    || die "ERROR: Could not get commit-msg hook from server: $hostname"
 
 if [ -f "${GIT_DIR}/hooks/commit-msg" ]; then
     if ! cmp --silent ${tmp_hook} ${hook}; then
