@@ -83,7 +83,11 @@ git config remote.${remote_name}.push +refs/heads/*:refs/for/*
 hook=${GIT_DIR}/hooks/commit-msg
 tmp_hook=$TMPDIR/commit-msg.$$
 
-scp -q -p -P ${port} ${hostname}:hooks/commit-msg ${tmp_hook} \
+scp_prefix=""
+if [ "$username" != "" ]; then
+    scp_prefix=${username}@
+fi
+scp -q -p -P ${port} ${scp_prefix}${hostname}:hooks/commit-msg ${tmp_hook} \
     || die "ERROR: Could not get commit-msg hook from server: $hostname"
 
 if [ -f "${GIT_DIR}/hooks/commit-msg" ]; then
