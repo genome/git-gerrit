@@ -40,7 +40,7 @@ my $run_ok = sub {
 };
 
 $run_ok->(1, 'gerrit', 'change-ids');
-$run_ok->(0, 'gerrit', 'init', 'git-gerrit');
+$run_ok->(0, 'gerrit', 'init', '--username', 'apipe-review', 'git-gerrit');
 
 my $hook = File::Spec->join($r->git_dir, 'hooks', 'commit-msg');
 ok( -f $hook, 'commit-msg hook added');
