@@ -1,7 +1,7 @@
 Source: git-gerrit
 Section: devel
 Priority: optional
-Build-Depends: debhelper (>= 7), cdbs, git-core, openssh-client
+Build-Depends: debhelper (>= 7), cdbs, cmake, git-core, openssh-client
 Maintainer: Nathaniel Nutter <nnutter@genome.wustl.edu>
 Standards-Version: 3.8.3
 
