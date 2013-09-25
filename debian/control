@@ -7,5 +7,5 @@ Standards-Version: 3.8.3
 
 Package: git-gerrit
 Architecture: all
-Depends: git-core, openssh-client
+Depends: git-core (>= 1:1.7.12), openssh-client
 Description: Subcommand to help setup a Git repo for use with Git Gerrit.
