@@ -16,6 +16,7 @@ help () {
     echo "Available subcommands are:"
     echo "   init         Initialize repo for use with Gerrit"
     echo "   change-ids   Add Change-Ids to local commits"
+    echo "   push         Push branch for review with options for reviewers, topic, etc."
     echo
     echo "Try 'git gerrit <subcommand> --help' for details."
 }
