@@ -8,7 +8,18 @@ port_default=29418
 remote_name_default=origin
 
 OPTS_SPEC="\
-git gerrit init <gerrit_project>
+git gerrit init <gerrit_project_name>
+
+This has two purposes:
+
+1) Setup the Change-Id hook that is required on most Gerrit projects.
+
+2) Migrate an existing repo/clone from the old remote to the Gerrit remote.
+
+You will have to run this any time you clone a repo, even if you clone it from
+Gerrit.  This is because Git hooks are not tracked by Git so are not part of
+the repo/clone.
+
 --
  Available options are
 h                 show the help

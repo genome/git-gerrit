@@ -2,6 +2,19 @@
 
 OPTIONS_SPEC="\
 git gerrit push [options] [<branch>] [<target_branch>]
+
+This lets you specify users to CC or to request reviews from and to set a topic
+for changes you are about to push.  The topic is a way to distinguish your
+changes as a related set.  For example, You might just use the name of your
+branch for the topic.  For example:
+
+   git gerrit push -r nnutter -t add_vcf_parsing
+
+You can optionally specify the local branch you wish to push and the target
+branch it should be merged into (after review).  For example:
+
+   git gerrit push -r nnutter -t add_vcf_parsing add_vcf_parsing master
+
 --
  Available options are
 c,cc=        user to CC regarding the changes (can be specified multiple times)
