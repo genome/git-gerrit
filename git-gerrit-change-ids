@@ -10,6 +10,7 @@ This will help you add Change-Ids to your existing commits.  If you have run
 'git-gerrit-setup' then Change-Ids will automatically be added for any future
 commits in this repo.
 --
+ Available options are
 h,help      show the help
 "
 eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt -- "$@" || echo exit $?)"
