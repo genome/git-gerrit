@@ -63,7 +63,7 @@ if [ -z "$username" ]; then
 fi
 
 if [ -z "$1" ]; then
-    die "repo name is required"
+    die "gerrit_project_name is required"
 else
     repo="$1"
     shift
