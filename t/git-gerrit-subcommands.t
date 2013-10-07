@@ -28,7 +28,13 @@ is(scalar(@commit_lines), scalar(@files),
 my $out;
 
 run_expect_return_code($r, 1, 'gerrit', 'change-ids');
-run_expect_return_code($r, 0, 'gerrit', 'init', '--username', 'apipe-review', 'git-gerrit');
+
+my @init_args;
+if ($ENV{JENKINS_URL}) {
+    # running in Jenkins
+    @init_args = ('--username', 'apipe-review' );
+}
+run_expect_return_code($r, 0, 'gerrit', 'init', @init_args, 'git-gerrit');
 
 my $hook = File::Spec->join($r->git_dir, 'hooks', 'commit-msg');
 ok( -f $hook, 'commit-msg hook added');
