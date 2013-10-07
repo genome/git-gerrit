@@ -10,6 +10,10 @@ remote_name_default=origin
 OPTS_SPEC="\
 git gerrit init <gerrit_project_name>
 
+The value used for gerrit_project_name must be an already existing project
+name on the gerrit server.  You can get a list of projects at
+https://your-gerrit-url.example.com/#/admin/projects/
+
 This has two purposes:
 
 1) Setup the Change-Id hook that is required on most Gerrit projects.
