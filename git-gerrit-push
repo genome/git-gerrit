@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 OPTIONS_SPEC="\
 git gerrit push [options] [<branch>] [<target_branch>]
