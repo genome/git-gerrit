@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More tests => 9;
 use Test::System import => [qw(run_ok)];
-use Test::GitGerrit;
+use Test::GitGerrit import => [qw(run_expect_return_code)];
 
 use File::Spec qw();
 use File::Temp qw();
@@ -27,28 +27,22 @@ is(scalar(@commit_lines), scalar(@files),
 
 my $out;
 
-my $run_ok = sub {
-    my $expected_exit_code = shift;
-    my @cmd = @_;
-    my $out = $r->run(@cmd, { quiet => !$ENV{TEST_VERBOSE} });
-    my $exit_code = $? >> 8;
-    is($exit_code, $expected_exit_code,
-        sprintf('`%s` exited %s as expected',
-            join(' ', 'git', @cmd),
-            $expected_exit_code)
-    ) or diag $out;
-};
+run_expect_return_code($r, 1, 'gerrit', 'change-ids');
 
-$run_ok->(1, 'gerrit', 'change-ids');
-$run_ok->(0, 'gerrit', 'init', 'git-gerrit');
+my @init_args;
+if ($ENV{JENKINS_URL}) {
+    # running in Jenkins
+    @init_args = ('--username', 'apipe-review' );
+}
+run_expect_return_code($r, 0, 'gerrit', 'init', @init_args, 'git-gerrit');
 
 my $hook = File::Spec->join($r->git_dir, 'hooks', 'commit-msg');
 ok( -f $hook, 'commit-msg hook added');
 
-$run_ok->(0, 'fetch');
-$run_ok->(0, 'branch', '--set-upstream', 'master', 'origin/master');
-$run_ok->(0, 'pull', '--rebase');
-$run_ok->(0, 'gerrit', 'change-ids');
+run_expect_return_code($r, 0, 'fetch');
+run_expect_return_code($r, 0, 'branch', '--set-upstream', 'master', 'origin/master');
+run_expect_return_code($r, 0, 'pull', '--rebase');
+run_expect_return_code($r, 0, 'gerrit', 'change-ids');
 
 my @log = $r->run('log', '@{u}..');
 my @change_id_lines = grep { /Change-Id/ } @log;

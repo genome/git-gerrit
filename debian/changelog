@@ -1,3 +1,9 @@
+git-gerrit (0.005-1) lucid; urgency=low
+
+  * New upstream version.
+
+ -- Nathaniel Nutter <nnutter@genome.wustl.edu>  Wed, 09 Oct 2013 16:45:19 -0500
+
 git-gerrit (0.002-4) lucid; urgency=low
 
   * Add minimum version for git-core, 1.7.12.

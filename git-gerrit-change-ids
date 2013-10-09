@@ -4,12 +4,17 @@ set -o errexit
 set -o pipefail
 
 OPTS_SPEC="\
-    git gerrit change-ids
+    git gerrit change-ids [<upstream>]
 
-This will help you add Change-Ids to your existing commits.  If you have run
-'git-gerrit-setup' then Change-Ids will automatically be added for any future
-commits in this repo.
+This will add Change-Ids to your existing commits.  Like the git-rebase
+command that this depends on the first argument is an optional upstream
+commit to start from.  When not specified it let's Git decide.
+
+Once you have run 'git-gerrit-init' Change-Ids will automatically be added for
+any future commits (made in this repo/clone).
+
 --
+ Available options are
 h,help      show the help
 "
 eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt -- "$@" || echo exit $?)"
