@@ -1,3 +1,9 @@
+git-gerrit (0.005-3) lucid; urgency=low
+
+  * Depend on git or git-core for semi-compatability with Lucid.
+
+ -- Nathaniel Nutter <nnutter@genome.wustl.edu>  Wed, 09 Oct 2013 16:57:06 -0500
+
 git-gerrit (0.005-2) lucid; urgency=low
 
   * Fix obsoleted dependency on git-core.
