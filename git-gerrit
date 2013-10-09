@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 main () {
     case "$1" in
@@ -15,7 +15,8 @@ help () {
     echo
     echo "Available subcommands are:"
     echo "   init         Initialize repo for use with Gerrit"
-    echo "   change-ids   Add Change-Ids to local commits"
+    echo "   change-ids   Add required Change-Ids to local commits (before pushing)"
+    echo "   push         Push branch for review with options for reviewers, topic, etc."
     echo
     echo "Try 'git gerrit <subcommand> --help' for details."
 }
