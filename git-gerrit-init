@@ -75,6 +75,8 @@ fi
 
 set -o nounset
 
+git submodule sync
+
 remote_url=ssh://
 if [ "$username" != "" ]; then
     remote_url=${remote_url}${username}@
