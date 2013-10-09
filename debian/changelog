@@ -1,3 +1,9 @@
+git-gerrit (0.005-2) lucid; urgency=low
+
+  * Fix obsoleted dependency on git-core.
+
+ -- Nathaniel Nutter <nnutter@genome.wustl.edu>  Wed, 09 Oct 2013 16:46:26 -0500
+
 git-gerrit (0.005-1) lucid; urgency=low
 
   * New upstream version.
