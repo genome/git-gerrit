@@ -3,11 +3,11 @@ use warnings;
 
 use Test::More tests => 1;
 use Test::System import => [qw(run_ok)];
-use Test::GitGerrit import => [qw(run_expect_return_code)];
+use Test::GitGerrit;
 
 use File::Spec qw();
 use File::Temp qw();
-use Git::Repository qw();
+use Git::Repository qw(Test);
 use IO::File qw();
 
 my $bare_repo_path = File::Temp->newdir();
@@ -27,5 +27,5 @@ if ($ENV{JENKINS_URL}) {
     # running in Jenkins
     @init_args = ('--username', 'apipe-review' );
 }
-run_expect_return_code($r, 1, 'gerrit', 'init', @init_args, 'git-gerrit');
+$r->run_exit_is(1, 'gerrit', 'init', @init_args, 'git-gerrit');
 
