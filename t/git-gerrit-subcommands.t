@@ -3,11 +3,11 @@ use warnings;
 
 use Test::More tests => 9;
 use Test::System import => [qw(run_ok)];
-use Test::GitGerrit import => [qw(run_expect_return_code)];
+use Test::GitGerrit;
 
 use File::Spec qw();
 use File::Temp qw();
-use Git::Repository qw();
+use Git::Repository qw(Test);
 use IO::File qw();
 
 my $work_tree = File::Temp->newdir();
@@ -27,22 +27,22 @@ is(scalar(@commit_lines), scalar(@files),
 
 my $out;
 
-run_expect_return_code($r, 1, 'gerrit', 'change-ids');
+$r->run_exit_is(1, 'gerrit', 'change-ids');
 
 my @init_args;
 if ($ENV{JENKINS_URL}) {
     # running in Jenkins
     @init_args = ('--username', 'apipe-review' );
 }
-run_expect_return_code($r, 0, 'gerrit', 'init', @init_args, 'git-gerrit');
+$r->run_exit_ok('gerrit', 'init', @init_args, 'git-gerrit');
 
 my $hook = File::Spec->join($r->git_dir, 'hooks', 'commit-msg');
 ok( -f $hook, 'commit-msg hook added');
 
-run_expect_return_code($r, 0, 'fetch');
-run_expect_return_code($r, 0, 'branch', '--set-upstream', 'master', 'origin/master');
-run_expect_return_code($r, 0, 'pull', '--rebase');
-run_expect_return_code($r, 0, 'gerrit', 'change-ids');
+$r->run_exit_ok('fetch');
+$r->run_exit_ok('branch', '--set-upstream', 'master', 'origin/master');
+$r->run_exit_ok('pull', '--rebase');
+$r->run_exit_ok('gerrit', 'change-ids');
 
 my @log = $r->run('log', '@{u}..');
 my @change_id_lines = grep { /Change-Id/ } @log;
