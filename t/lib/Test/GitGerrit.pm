@@ -35,12 +35,8 @@ sub run_expect_return_code {
     my $repo = shift;
     my $expected_exit_code = shift;
     my @cmd = @_;
-#print STDERR "Verbose: $ENV{TEST_VERBOSE} About to execute ",join(' ', @cmd),"\n";
-#system('bash') if grep { m/init/ } @cmd;
     my $out = $repo->run(@cmd, { quiet => !$ENV{TEST_VERBOSE} });
     my $exit_code = $? >> 8;
-#print STDERR "    exit code $exit_code\n";
-#print STDERR "    output: $out\n";
     my $rv = $tb->is_num($exit_code, $expected_exit_code,
         sprintf('`%s` exited %s as expected',
             join(' ', 'git', @cmd),
