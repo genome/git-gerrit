@@ -87,6 +87,7 @@ if git config remote.${remote_name}.url 1> /dev/null; then
     if [ "${current_url}" != "${remote_url}" ]; then
         old_remote_name=old-${remote_name}
         if git config remote.${old_remote_name}.url; then
+            git rev-parse --show-toplevel # debug mesage
             die "ERROR: Cannot backup old ${remote_name} as '${old_remote_name}' because it already exists."
         fi
         git remote add ${old_remote_name} ${current_url}
