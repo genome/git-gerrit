@@ -20,17 +20,10 @@ Git::Repository->run(init => $work_tree);
 my $r = Git::Repository->new(work_tree => $work_tree);
 
 $r->run('remote', 'add', 'origin', $bare_repo_path);
-
-my @init_args;
-if ($ENV{JENKINS_URL}) {
-    # running in Jenkins
-    @init_args = ('--username', 'apipe-review' );
-}
-$r->run_exit_ok('gerrit', 'init', @init_args, 'git-gerrit');
+$r->run_exit_ok('gerrit', 'init', 'git-gerrit');
 
 chomp(my $old_origin = $r->run('config', 'remote.old-origin.url'));
 is($old_origin, $bare_repo_path, 'Original remote "origin" now called "old-origin"');
 
 chomp(my $new_origin = $r->run('config', 'remote.origin.url'));
 isnt($new_origin, $bare_repo_path, 'remote origin has changed');
-
