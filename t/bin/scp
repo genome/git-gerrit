@@ -1,10 +1,13 @@
 #!/bin/bash
 
+set -o errexit
+set -o pipefail
 
 OPTS_SPEC="\
 scp -q -p -P <port> <scp_prefix><hostname>:hooks/commit-msg <tmp_hook>
 --
  Fake options are
+h   help
 q   fake q
 p   fake p
 P=  fake P
@@ -26,6 +29,8 @@ while [ $# -gt 0 ]; do
         *) die "Unexpected option: $opt" ;;
     esac
 done
+
+set -o nounset
 
 SRC="$1"
 DST="$2"
