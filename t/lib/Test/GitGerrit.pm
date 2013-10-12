@@ -2,8 +2,6 @@
 package Test::GitGerrit;
 
 use base 'Test::Builder::Module';
-use base 'Exporter';
-our @EXPORT_OK = qw(run_expect_return_code);
 
 use strict;
 use warnings;
@@ -27,23 +25,6 @@ $ENV{PATH} = "$git_gerrit_dir:$ENV{PATH}";
 
 sub realrealpath {
     return realpath(File::Spec->join(@_));
-}
-
-sub run_expect_return_code {
-    my $tb = __PACKAGE__->builder;
-
-    my $repo = shift;
-    my $expected_exit_code = shift;
-    my @cmd = @_;
-    my $out = $repo->run(@cmd, { quiet => !$ENV{TEST_VERBOSE} });
-    my $exit_code = $? >> 8;
-    my $rv = $tb->is_num($exit_code, $expected_exit_code,
-        sprintf('`%s` exited %s as expected',
-            join(' ', 'git', @cmd),
-            $expected_exit_code)
-    );
-    ($rv || $ENV{TEST_VERBOSE}) or $tb->diag($out);
-    return $rv;
 }
 
 1;
