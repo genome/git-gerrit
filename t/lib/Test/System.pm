@@ -4,7 +4,7 @@ use warnings;
 package Test::System;
 use base 'Test::Builder::Module';
 our @EXPORT_OK = qw(
-    run_ok
+    exit_ok
     exit_is
 );
 
@@ -12,7 +12,7 @@ use Test::More import => [qw(diag)];
 
 use IPC::System::Simple qw(capture);
 
-sub run_ok {
+sub exit_ok {
     return _exit_is(0, @_);
 }
 
