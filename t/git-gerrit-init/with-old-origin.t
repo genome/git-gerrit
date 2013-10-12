@@ -21,11 +21,4 @@ my $r = Git::Repository->new(work_tree => $work_tree);
 
 $r->run('remote', 'add', 'origin', $bare_repo_path);
 $r->run('remote', 'add', 'old-origin', $bare_repo_path);
-
-my @init_args;
-if ($ENV{JENKINS_URL}) {
-    # running in Jenkins
-    @init_args = ('--username', 'apipe-review' );
-}
-$r->run_exit_is(1, 'gerrit', 'init', @init_args, 'git-gerrit');
-
+$r->run_exit_is(1, 'gerrit', 'init', 'git-gerrit');
