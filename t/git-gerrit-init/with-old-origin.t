@@ -2,7 +2,6 @@ use strict;
 use warnings;
 
 use Test::More tests => 1;
-use Test::System import => [qw(run_ok)];
 use Test::GitGerrit;
 
 use File::Spec qw();
