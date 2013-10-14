@@ -21,7 +21,12 @@ unless (-x $bin_path) {
     die "git-gerrit is not executable: $bin_path";
 }
 
-$ENV{PATH} = "$top_dir:$ENV{PATH}";
+my $tbin_dir = File::Spec->join($top_dir, 't', 'bin');
+unless (-d $tbin_dir) {
+    die "could not find t/bin directory: $tbin_dir";
+}
+
+$ENV{PATH} = "$top_dir:$tbin_dir:$ENV{PATH}";
 
 sub realpath {
     return Cwd::realpath(File::Spec->join(@_));
