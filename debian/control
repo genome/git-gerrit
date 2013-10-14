@@ -1,11 +1,11 @@
 Source: git-gerrit
 Section: devel
 Priority: optional
-Build-Depends: debhelper (>= 7), cdbs, cmake, git | git-core, openssh-client
+Build-Depends: debhelper (>= 7), cdbs, cmake, git, openssh-client
 Maintainer: Nathaniel Nutter <nnutter@genome.wustl.edu>
 Standards-Version: 3.8.3
 
 Package: git-gerrit
 Architecture: all
-Depends: git | git-core (>= 1:1.7.12), openssh-client
+Depends: git (>= 1:1.7.12), openssh-client
 Description: Subcommand to help setup a Git repo for use with Git Gerrit.

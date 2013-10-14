@@ -1,3 +1,9 @@
+git-gerrit (0.005-4) lucid; urgency=low
+
+  * Remote git-core dependency, package will require PPA for Lucid.
+
+ -- Nathaniel Nutter <nnutter@genome.wustl.edu>  Mon, 14 Oct 2013 11:38:56 -0500
+
 git-gerrit (0.005-3) lucid; urgency=low
 
   * Depend on git or git-core for semi-compatability with Lucid.
