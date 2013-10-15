@@ -21,6 +21,7 @@ c,cc=        user to CC regarding the changes (can be specified multiple times)
 r,reviewers= user to request review from (can be specified multiple times)
 t,topic=     topic of these changes
 remote=      name of the gerrit remote
+test*        enable for testing
 "
 
 PATH=$PATH:$(git --exec-path)
@@ -70,6 +71,9 @@ do
             shift
             remote="$1"
             ;;
+        --test)
+            TESTING="1"
+            ;;
         --)
             shift
             break
@@ -109,4 +113,10 @@ then
     refspec="${refspec}%${refspec_option}"
 fi
 
-git push ${remote} ${refspec}
+if [ -z "$TESTING" ]
+then
+    git push ${remote} ${refspec}
+else
+    echo "${remote}"
+    echo "${refspec}"
+fi

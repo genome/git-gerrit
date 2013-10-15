@@ -6,6 +6,7 @@ main () {
         -h|--help) help ;;
         change-ids) shift; git-gerrit-change-ids "$@" ;;
         init) shift; git-gerrit-init "$@" ;;
+        push) shift; git-gerrit-push "$@" ;;
         *) echo "Unknown subcommand: $1" 1>&2 ; exit 128;;
     esac
 }
