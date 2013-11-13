@@ -33,5 +33,5 @@ fi
 
 # set GIT_EDITOR=true because we can't --exec without --interactive but we
 # don't really want to be --interactive
-GIT_EDITOR=true git rebase --interactive \
-    --exec "git reset --soft HEAD^ && git commit -C ORIG_HEAD" "$@"
+GIT_EDITOR=true git rebase --interactive --preserve-merges \
+    --exec "git commit --amend" "$@"
