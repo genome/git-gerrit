@@ -1,0 +1,122 @@
+#!/bin/bash
+
+OPTIONS_SPEC="\
+git gerrit push [options] [<branch>] [<target_branch>]
+
+This lets you specify users to CC or to request reviews from and to set a topic
+for changes you are about to push.  The topic is a way to distinguish your
+changes as a related set.  For example, You might just use the name of your
+branch for the topic.  For example:
+
+   git gerrit push -r nnutter -t add_vcf_parsing
+
+You can optionally specify the local branch you wish to push and the target
+branch it should be merged into (after review).  For example:
+
+   git gerrit push -r nnutter -t add_vcf_parsing add_vcf_parsing master
+
+--
+ Available options are
+c,cc=        user to CC regarding the changes (can be specified multiple times)
+r,reviewers= user to request review from (can be specified multiple times)
+t,topic=     topic of these changes
+remote=      name of the gerrit remote
+test*        enable for testing
+"
+
+PATH=$PATH:$(git --exec-path)
+. git-sh-setup
+
+comma_append() {
+    local list="$1"
+    local item="$2"
+    if [ -z "$list" ]; then
+        list="$item"
+    else
+        list="${list},$item"
+    fi
+    printf "%s" "$list"
+}
+
+append_option() {
+    local list="$1"
+    shift
+    local option="$1"
+    shift
+
+    while test $# != 0
+    do
+        list=$(comma_append "$list" "${option}=${1}")
+        shift
+    done
+    printf "%s" "$list"
+}
+
+while test $# != 0
+do
+    case "$1" in
+        -c)
+            shift
+            cc+=("$1")
+            ;;
+        -r)
+            shift
+            reviewers+=("$1")
+            ;;
+        -t)
+            shift
+            topic="$1"
+            ;;
+        --remote)
+            shift
+            remote="$1"
+            ;;
+        --test)
+            TESTING="1"
+            ;;
+        --)
+            shift
+            break
+            ;;
+    esac
+    shift
+done
+
+if test $# != 0
+then
+    branch="$1"
+    shift
+else
+    branch="HEAD"
+fi
+
+if test $# != 0
+then
+    target_branch="$1"
+    shift
+else
+    target_branch="master"
+fi
+
+if [ -z "$remote" ]
+then
+    remote='origin'
+fi
+
+refspec_option=$(append_option "$refspec_option" 'r' "${reviewers[@]}")
+refspec_option=$(append_option "$refspec_option" 'cc' "${cc[@]}")
+refspec_option=$(append_option "$refspec_option" 'topic' "${topic[@]}")
+
+refspec="${branch}:refs/for/${target_branch}"
+if [ -n "$refspec_option" ]
+then
+    refspec="${refspec}%${refspec_option}"
+fi
+
+if [ -z "$TESTING" ]
+then
+    git push ${remote} ${refspec}
+else
+    echo "${remote}"
+    echo "${refspec}"
+fi

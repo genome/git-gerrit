@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+
+OPTS_SPEC="\
+    git gerrit change-ids [<upstream>]
+
+This will add Change-Ids to your existing commits.  Like the git-rebase
+command that this depends on the first argument is an optional upstream
+commit to start from.  When not specified it let's Git decide.
+
+Once you have run 'git-gerrit-init' Change-Ids will automatically be added for
+any future commits (made in this repo/clone).
+
+--
+ Available options are
+h,help      show the help
+"
+eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt -- "$@" || echo exit $?)"
+
+PATH=$PATH:$(git --exec-path)
+. git-sh-setup
+
+set -o nounset
+
+require_work_tree
+
+if [ ! -f "${GIT_DIR}/hooks/commit-msg" ]; then
+    echo 'ERROR: commit-msg hook not installed, have you run `git gerrit init`?'
+    exit 1
+fi
+
+# set GIT_EDITOR=true because we can't --exec without --interactive but we
+# don't really want to be --interactive
+GIT_EDITOR=true git rebase --interactive --preserve-merges \
+    --exec "git commit --amend" "$@"
