@@ -13,20 +13,20 @@ my $work_tree = File::Temp->newdir();
 Git::Repository->run(init => $work_tree);
 my $r = Git::Repository->new(work_tree => $work_tree);
 
-my $add_and_comit = sub {
+my $add_and_commit = sub {
     my $file = new_file($work_tree);
     $r->run('add', $file);
     $r->run('commit', '-m', "add $file");
     return $file;
 };
 
-$add_and_comit->();
+$add_and_commit->();
 my $base = $r->run('rev-parse', '--short', 'HEAD');
 chomp $base;
 
 my @files;
 for my $i (1..3) {
-    push @files, $add_and_comit->();
+    push @files, $add_and_commit->();
 }
 
 my @commit_lines = $r->run('log', '--oneline');
