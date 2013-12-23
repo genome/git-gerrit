@@ -7,7 +7,7 @@
 
 ## Install Test Depedencies
 
-    cpanm Git::Repository IPC::System::Simple Params::Validate
+    cpanm Git::Repository Git::Repository::Plugin::Test IPC::System::Simple Params::Validate
 
 ## Run Tests
 
